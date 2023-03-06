@@ -1,0 +1,182 @@
+@import "variables.scss";
+@import url("https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700&display=swap");
+
+.section {
+  padding: 10vh 0;
+  width: 100%;
+}
+.container {
+  width: 100%;
+  max-width: 1390px;
+  margin: 0 auto;
+  padding: 0 1vw;
+  @include tablet {
+    padding: 0 16px;
+  }
+  @include large {
+    max-width: 80%;
+  }
+}
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2.5vh 6vh;
+  background: $dark;
+  border: 1px solid $dark;
+  border-radius: 2vh;
+  @include font(1.25em, $ivory, 700, 1);
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+
+  &:hover,
+  &:active {
+    background-color: $orange;
+    color: $dark;
+  }
+
+  &.transparent {
+    background-color: transparent;
+    color: $dark;
+
+    &:hover,
+    &:active {
+      background-color: $dark;
+      color: $orange;
+    }
+  }
+}
+
+//hero
+.hero {
+  height: 90vh;
+  padding: 0 0;
+
+  overflow-y: hidden;
+  &__container {
+    height: 100%;
+  }
+
+  &__inner {
+    height: 82vh;
+    display: grid;
+    grid-template-columns: 1fr 3.75fr 1fr;
+    gap: 1vh;
+  }
+  &__center {
+    display: flex;
+    flex-direction: column;
+    // justify-content: center;
+    align-items: center;
+    gap: 4vh;
+    padding-top: 12vh;
+    text-align: center;
+  }
+  &__buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    gap: 2vh;
+    width: 100%;
+    padding: 0 5vh;
+  }
+  &__title {
+    padding: 0 2vh;
+    @include font(4.2vw, $dark, 700, 0.84);
+    letter-spacing: -0.02em;
+    text-align: center;
+    & span {
+      color: $orange;
+    }
+  }
+  &__text {
+    @include font(1.3em, $dark, 500, 1.64);
+  }
+  &__accent {
+    display: inline-flex;
+    padding: 1.5vh 2.5vh;
+    border: 1px solid $dark;
+    border-radius: 1.5vh;
+    @include font(1.25em, $dark, 500, 1.1);
+    text-transform: lowercase;
+    letter-spacing: 0.02em;
+  }
+
+  &__video {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    transform: rotate(-6.74deg);
+  }
+  &__video-wrap {
+    position: relative;
+    height: 115px;
+    width: 115px;
+    border-radius: 50%;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      mix-blend-mode: hard-light;
+      background: linear-gradient(
+        180deg,
+        rgba(228, 153, 10, 0.73) 0%,
+        rgba(119, 79, 2, 0.73) 100%
+      );
+      z-index: 2;
+    }
+
+    &.v-1 {
+      border: 6px solid #ffbd40;
+      transform: translate(150%, 0%);
+    }
+    &.v-2 {
+      height: 135px;
+      width: 135px;
+      transform: translate(10%, -25%);
+    }
+    &.v-3 {
+      border: 6px solid #ffbd40;
+      transform: translate(125%, -75%);
+    }
+    &.v-4 {
+      height: 120px;
+      width: 120px;
+      transform: translate(25%, -75%);
+    }
+    &.v-5 {
+      transform: translate(-5%, -75%);
+    }
+    &.v-6 {
+      transform: translate(125%, -100%);
+    }
+    &.v-7 {
+      transform: translate(-20%, 0%);
+    }
+    &.v-8 {
+      transform: translate(115%, -50%);
+    }
+    &.v-8 {
+      transform: translate(115%, -50%);
+    }
+    &.v-9 {
+      height: 145px;
+      width: 145px;
+      transform: translate(0%, -50%);
+    }
+    &.v-10 {
+      transform: translate(100%, -70%);
+    }
+    &.v-11 {
+      height: 175px;
+      width: 175px;
+      transform: translate(10%, -40%);
+    }
+  }
+}

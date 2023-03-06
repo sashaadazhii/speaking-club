@@ -1,0 +1,23 @@
+{
+  "name": "speaking-club",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "core-js": "^3.25.3",
+    "nuxt": "^2.15.8",
+    "nuxt-video-player": "^1.0.17",
+    "sass": "^1.58.3",
+    "sass-loader": "^10.4.1",
+    "vue": "^2.7.10",
+    "vue-loader": "^15.10.0",
+    "vue-server-renderer": "^2.7.10",
+    "vue-template-compiler": "^2.7.10",
+    "vue-video-section": "^1.0.2"
+  }
+}

@@ -22,18 +22,29 @@
   justify-content: center;
   align-items: center;
   padding: 2.5vh 6vh;
-  background: $dark;
-  border: 1px solid $dark;
-  border-radius: 2vh;
-  @include font(1.25em, $ivory, 700, 1);
+  background: $orange;
+
+  border-radius: 10vh;
+  @include font(1.25em, $dark, 700, 1);
   text-align: center;
+  box-shadow: 0px 9px 0px #996e1b;
   cursor: pointer;
   transition: 0.3s ease-in-out;
+
+  @include mobile {
+    padding: 2vh;
+    font-size: 1.1em;
+    box-shadow: 0px 4px 0px #996e1b;
+  }
 
   &:hover,
   &:active {
     background-color: $orange;
     color: $dark;
+  }
+  &:active {
+    transform: translateY(9px);
+    box-shadow: 0px 0px 0px #996e1b;
   }
 
   &.transparent {
@@ -52,25 +63,41 @@
 .hero {
   height: 90vh;
   padding: 0 0;
+  // overflow-y: hidden;
+  @include mini {
+    height: auto;
+  }
 
-  overflow-y: hidden;
   &__container {
     height: 100%;
   }
 
   &__inner {
-    height: 82vh;
     display: grid;
     grid-template-columns: 1fr 3.75fr 1fr;
     gap: 1vh;
+
+    @include tablet {
+      grid-template-columns: 1fr 4.5fr 1fr;
+      height: 75vh;
+      align-items: center;
+    }
+    @include phablet {
+      height: 80vh;
+      grid-template-columns: 1fr;
+    }
+    @include mini {
+      display: flex;
+      flex-direction: column;
+      height: auto;
+    }
   }
   &__center {
     display: flex;
     flex-direction: column;
-    // justify-content: center;
     align-items: center;
     gap: 5vh;
-    padding-top: 4vh;
+    padding-top: 6vh;
     text-align: center;
   }
   &__buttons {
@@ -81,6 +108,37 @@
     width: 100%;
     padding: 0 5vh;
   }
+  &__btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2.5vh 6vh;
+    background: $dark;
+    border: 5px solid $orange;
+    border-radius: 10vh;
+    @include font(1.25em, $light, 700, 1);
+    text-align: center;
+    box-shadow: 0px 9px 0px $dark-orange;
+    cursor: pointer;
+    transition: 0.1s ease-in-out;
+
+    &:hover,
+    &:active {
+      background-color: $orange;
+      color: $dark;
+    }
+    &:active {
+      transform: translateY(9px);
+      box-shadow: 0px 0px 0px $dark-orange;
+    }
+
+    @include mobile {
+      padding: 2vh;
+      font-size: 1.1em;
+      border: 2px solid $orange;
+      box-shadow: 0px 4px 0px $dark-orange;
+    }
+  }
   &__title {
     padding: 0 2vh;
     @include font(4.2vw, $dark, 700, 1);
@@ -88,6 +146,16 @@
     text-align: center;
     & span {
       color: $orange;
+    }
+
+    @include tablet {
+      font-size: 3.25em;
+    }
+    @include mobile {
+      font-size: 2.75em;
+    }
+    @include mini {
+      font-size: 2.25em;
     }
   }
   &__text {
@@ -101,6 +169,11 @@
     @include font(1.25em, $dark, 500, 1.1);
     text-transform: lowercase;
     letter-spacing: 0.02em;
+
+    @include mini {
+      width: 90%;
+      padding: 1.5vh 2vh;
+    }
   }
 
   &__video {
@@ -182,38 +255,82 @@
   }
 }
 .banner {
-  width: 100%;
   height: 70vh;
   background: url(../images/banner.png) 50% no-repeat;
   border-radius: 3vh;
   background-size: cover;
   width: 96%;
-  margin: 0 auto 6vh;
+  margin: 0 auto 8vh;
+  @include tablet {
+    height: 50vh;
+  }
 }
 .text-wrap {
   display: flex;
   flex-direction: column;
-  gap: 3vh;
+  gap: 4vh;
   width: 75%;
   margin-left: 8vh;
+
+  @include tablet {
+    margin-left: 5vh;
+    gap: 3vh;
+  }
+  @include mobile {
+    width: 96%;
+    margin-left: 0vh;
+  }
 }
 .title {
   @include font(2.2em, $dark, 700, 0.94);
   text-transform: lowercase;
   letter-spacing: -0.02em;
+  &.orange {
+    color: $orange;
+  }
+
+  @include mobile {
+    font-size: 1.75em;
+  }
 }
 .text {
   @include font(1.25em, $dark, 500, 1.64);
   text-transform: lowercase;
   letter-spacing: 0.02em;
+  &.light {
+    color: $ivory;
+  }
+  @include mobile {
+    line-height: 1.4;
+  }
+  @include large {
+    font-size: 1em;
+  }
 }
 .advantages {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 3vh;
-  padding: 7vh 6vh;
-  border-radius: 4vh;
-  background-color: $orange;
+
+  @include tablet {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2vh;
+    justify-content: center;
+  }
+  @include phablet {
+    // grid-template-columns: repeat(3, 1fr);
+  }
+
+  &-wrapper {
+    padding: 7vh 6vh;
+    border-radius: 4vh;
+    background-color: $orange;
+
+    @include tablet {
+      padding: 3vh;
+    }
+  }
 
   &__item {
     display: flex;
@@ -222,128 +339,249 @@
     justify-content: space-around;
     height: 40vh;
     padding: 2.5vh 3vh 4vh;
-    gap: 4px;
+    gap: 1vh;
     background: $dark;
-    border-radius: 18vh;
+    border-radius: 20vh;
+
+    @include tablet {
+      height: 30vh;
+      width: 35%;
+    }
+    @include phablet {
+      width: 40%;
+      border-radius: 16vh;
+    }
+    @include mobile {
+      width: 96%;
+      border-radius: 12vh;
+    }
+
+    @include large {
+      height: 35vh;
+    }
   }
 
   &__number {
-    width: 6vw;
-    padding: 2vh;
-    border-radius: 4.5vh;
+    width: 7vw;
+    padding: 2vh 1vh;
+    border-radius: 6vh;
     background-color: $orange;
-    @include font(2em, $dark, 500, 1.5);
+    @include font(3em, $dark, 500, 1.5);
     text-align: center;
     font-feature-settings: "ss03" on;
+
+    @include tablet {
+      width: 100px;
+    }
+    @include phablet {
+      width: 80px;
+      font-size: 2em;
+    }
   }
   &__text {
     @include font(1.1em, $orange, 500, 1.5);
     text-align: center;
+    white-space: break-spaces;
+
+    @include tablet {
+      font-size: 1.3em;
+    }
+    @include phablet {
+      font-size: 1.2em;
+    }
   }
 }
 .center {
-  margin-bottom: 3vh;
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  margin: 0 auto 3vh;
   text-align: center;
+
+  &.small {
+    gap: 4vh;
+    width: 50%;
+
+    @include tablet {
+      gap: 3vh;
+      width: 75%;
+    }
+  }
 }
 .cards {
   display: flex;
   flex-direction: column;
   gap: 3vh;
 }
-.card {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  gap: 2vh;
-  padding: 3vh;
-  background: #7bb2d9;
-  box-shadow: 0px 8px 0px #48799c;
-  border-radius: 3vh;
-  margin: 5vh 0;
 
-  &__left {
+.test {
+  &-list {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 2.5vh;
-  }
-  &__info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1vh;
-  }
-  &__right {
-    padding: 2.5vh;
-    background-color: $dark;
-    border-radius: 2.5vh;
-  }
-  &__row {
-    display: flex;
+    gap: 2vh;
     align-items: center;
-    gap: 1vh;
-    padding-bottom: 1.7vh;
+    width: 75%;
+    margin: 0 auto;
   }
-  &__bottom {
-    display: flex;
-    gap: 1vh;
-    flex: 1;
-    align-items: flex-end;
-  }
-  &__accent {
-    padding: 1.4vh 2vh;
-    border-radius: 2vh;
-    @include font(1.1em, $dark, 700, 1);
+  &__title {
+    margin-bottom: 1vh;
+    padding: 1vh;
     border: 1px solid $dark;
+    border-radius: 1vh;
   }
-  &__date {
-    padding: 1.4vh 2vh;
-    border-radius: 2vh;
-    background-color: $dark;
-    @include font(1.5em, #7bb2d9, 600, 1);
+  &__answers {
+    margin-bottom: 2vh;
   }
-  &__icon {
-    width: 25px;
-    height: 25px;
-    object-fit: contain;
-  }
-  &__subtitle {
-    padding-bottom: 2.1vh;
-    @include font(1.5em, #7bb2d9, 600, 1.5);
-  }
-  &__text {
-    @include font(1em, #7bb2d9, 500, 1.5);
-  }
-  &__buttons {
-    display: grid;
-    align-items: center;
-    grid-template-columns: 1fr 1fr;
-    gap: 1vh;
-    margin-top: 1vh;
-  }
-  &__btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1vh;
-    padding: 1.8vh 2vh;
-    border-radius: 1.4vh;
-    border: 1px solid #7bb2d9;
-    @include font(1em, #7bb2d9, 600, 1);
-
-    transition: 0.3s ease-in-out;
+  &__answer {
     cursor: pointer;
+    border-bottom: 1px solid transparent;
+    transition: 0.3s ease-in-out;
+
+    &.active {
+      color: #06650f;
+      border-color: 1px solid $dark;
+    }
 
     &:hover,
     &:active {
+      border-color: $dark;
+    }
+  }
+}
+.slider {
+  display: flex;
+  justify-content: center;
+  gap: 1.5vh;
+  overflow-x: auto;
+  padding: 0 1vw 6vh;
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    gap: 2.5vh;
+    width: 340px;
+    padding: 1.5vh;
+    background: $sand;
+    border: 1px solid rgba($dark, 0.23);
+    border-radius: 3vh;
+    box-shadow: 0px 5px 0px rgba($dark, 0.2);
+
+    @include mobile {
+      width: 300px;
+    }
+    @include large {
+      width: 20%;
+    }
+  }
+  &__img {
+    width: 100%;
+    height: 320px;
+    border-radius: 2vh;
+    object-fit: cover;
+    @include mobile {
+      height: 280px;
+    }
+  }
+  &__title {
+    @include font(1.15em, $dark, 700, 1);
+  }
+  &__text {
+    @include font(0.9em, $dark, 500, 1.5);
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  width: 85%;
+  margin: 0 auto;
+
+  @include phablet {
+    width: 100%;
+  }
+
+  &-wrapper {
+    width: 100%;
+    max-width: 950px;
+    margin: 0 auto;
+    padding: 10vh;
+    background: linear-gradient(180deg, $dark 0%, $dark 100%);
+    box-shadow: 0px 4px 0px 7px $dark-orange;
+    border-radius: 4vh;
+
+    @include tablet {
+      padding: 5vh;
+    }
+    @include mobile {
+      padding: 5vh 2vh;
+    }
+    @include large {
+      max-width: 70%;
+    }
+  }
+
+  &__input {
+    height: 80px;
+    padding: 10px 40px;
+    border: 1px solid rgba(255, 240, 212, 0.3);
+    border-radius: 2vh;
+    background: transparent;
+    @include font(1.5em, $ivory, 600, 1);
+    transition: 0.3s ease-in-out;
+    @include mobile {
+      height: 44px;
+      padding: 8px 16px;
+      font-size: 1em;
+    }
+    @include large {
+      height: 2.5vw;
+      padding: 1vh 2vw;
+      font-size: 1.2em;
     }
 
-    &.accent {
-      background-color: #7bb2d9;
-      border: 1px solid $dark;
-      @include font(1em, $dark, 600, 1);
-      &:hover,
-      &:active {
-      }
+    &::placeholder {
+      color: rgba($ivory, 0.3);
     }
+
+    &:focus {
+      border-color: $orange;
+    }
+  }
+  &__info {
+    display: flex;
+    align-items: center;
+    gap: 3vh;
+  }
+  &__icon {
+    width: 30px;
+    height: 30px;
+
+    @include large {
+      width: 2vw;
+      height: 2vw;
+    }
+  }
+}
+
+.contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5vh;
+  width: 100%;
+  max-width: 700px;
+  padding: 4vh;
+  margin: 0 auto;
+  background: $dark;
+  border-radius: 6vh;
+  transform: rotate(-4.1deg);
+
+  @include tablet {
+    max-width: 800px;
+    padding: 3vh;
+  }
+  @include large {
+    max-width: 60%;
   }
 }

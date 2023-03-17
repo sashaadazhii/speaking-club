@@ -1,12 +1,17 @@
 $ivory: #fff0d4;
+$light: #fffbee;
 $white: #fff;
 $orange: #ffbd40;
+
+$dark-orange: #e3a939;
 $dark: #1e1c16;
+$sand: #f3e2c3;
 
 $large-screen-width: 1700px;
 $tablet-screen-width: 1100px;
 $phablet-screen-width: 768px;
 $mobile-screen-width: 500px;
+$mini-screen-width: 350px;
 
 @mixin font($size: 1em, $color: $dark, $weight: 400, $line-height: 1) {
   @if $size != _ {
@@ -44,6 +49,11 @@ $mobile-screen-width: 500px;
 
 @mixin mobile {
   @media only screen and (max-width: #{$mobile-screen-width}) {
+    @content;
+  }
+}
+@mixin mini {
+  @media only screen and (max-width: #{$mini-screen-width}) {
     @content;
   }
 }

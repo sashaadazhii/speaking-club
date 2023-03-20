@@ -3,110 +3,49 @@
     <div class="modal">
       <div class="modal__header">
         <div class="center">
-          <div class="modal__title title small">пройти тест</div>
+          <div class="modal__title title small">тест</div>
         </div>
         <div class="modal__close" @click="$emit('close')"></div>
       </div>
       <ModalCard
-        v-if="currentSlide === 1"
+        v-if="currentSlide === 1 && !isResult"
         :tests="tests.slice(0, 5)"
         :length="1"
         @next="next(2)"
       />
       <ModalCard
-        v-if="currentSlide === 2"
+        v-if="currentSlide === 2 && !isResult"
         :tests="tests.slice(5, 10)"
         :length="2"
         @next="next(3)"
       />
       <ModalCard
-        v-if="currentSlide === 3"
+        v-if="currentSlide === 3 && !isResult"
         :tests="tests.slice(10, 15)"
         :length="3"
         @next="next(4)"
       />
       <ModalCard
-        v-if="currentSlide === 4"
+        v-if="currentSlide === 4 && !isResult"
         :tests="tests.slice(15, 20)"
         :length="4"
         @next="next(5)"
       />
       <ModalCard
-        v-if="currentSlide === 5"
+        v-if="currentSlide === 5 && !isResult"
         :tests="tests.slice(20, 25)"
         :length="5"
+        @getTotal="getResult()"
       />
-      <div v-if="currentSlide === 5" class="btn" @click="getResult()">
-        отримати результат
-      </div>
-
-      <!-- <div v-if="currentSlide === 1" class="modal__step modal__step--1">
-        <Progress :length="1" />
-        <div class="modal__body">
-          <Test v-for="test in tests.slice(0, 5)" :key="test.id" :test="test" />
-
-          <div class="modal__btn">
-            <div class="btn" @click="next(2)">далі</div>
-          </div>
-        </div>
-      </div> -->
-
-      <!-- <div v-if="currentSlide === 2" class="modal__step modal__step--2">
-        <Progress :length="2" />
-        <div class="modal__body">
-          <Test
-            v-for="test in tests.slice(6, 10)"
-            :key="test.id"
-            :test="test"
-          />
-
-          <div class="modal__btn">
-            <div class="btn" @click="next(3)">далі</div>
+      <div v-if="isResult" class="modal__body">
+        <div class="modal__result">
+          <div class="modal__subtitle">Ваш результат:</div>
+          <div class="modal__text">
+            <span>{{ total }}</span
+            >/25
           </div>
         </div>
       </div>
-      <div v-if="currentSlide === 3" class="modal__step modal__step--3">
-        <Progress :length="3" />
-        <div class="modal__body">
-          <Test
-            v-for="test in tests.slice(10, 15)"
-            :key="test.id"
-            :test="test"
-          />
-
-          <div class="modal__btn">
-            <div class="btn" @click="next(4)">далі</div>
-          </div>
-        </div>
-      </div>
-      <div v-if="currentSlide === 4" class="modal__step modal__step--4">
-        <Progress :length="4" />
-        <div class="modal__body">
-          <Test
-            v-for="test in tests.slice(15, 20)"
-            :key="test.id"
-            :test="test"
-          />
-
-          <div class="modal__btn">
-            <div class="btn" @click="next(5)">далі</div>
-          </div>
-        </div>
-      </div>
-      <div v-if="currentSlide === 5" class="modal__step modal__step--5">
-        <Progress :length="5" />
-        <div class="modal__body">
-          <Test
-            v-for="test in tests.slice(20, 25)"
-            :key="test.id"
-            :test="test"
-          />
-
-          <div class="modal__btn">
-            <div class="btn" @click="getResult()">отримати результат</div>
-          </div>
-        </div>
-      </div> -->
     </div>
   </div>
 </template>
@@ -421,7 +360,7 @@ export default {
       total: 0,
       results: [],
       currentSlide: 1,
-      allChecked: false,
+      isResult: false,
     };
   },
   created() {
@@ -449,11 +388,13 @@ export default {
           return this.results;
         });
       });
+
       //calculate total result
       this.total = this.results.reduce((acc, answ) => {
         return acc + answ.point;
       }, 0);
-      console.log(this.results, this.total);
+      this.isResult = true;
+
       //clear
       // this.tests.forEach((test) => {
       //   test.answers.filter((answer) => {
@@ -464,6 +405,12 @@ export default {
       // });
       // this.results = [];
     },
+  },
+  beforeDestroy() {
+    this.result = [];
+    this.isResult = false;
+    this.total = 0;
+    this.currentSlide = 1;
   },
 };
 </script>
@@ -480,6 +427,7 @@ export default {
   overflow-y: hidden;
   height: 100%;
   display: grid;
+  grid-template-rows: auto 1fr;
 
   &-wrapper {
     position: fixed;
@@ -538,6 +486,27 @@ export default {
     display: flex;
     justify-content: center;
     padding: 2vh;
+  }
+  &__result {
+    width: 50%;
+    margin: 3vh auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+    padding: 3vh;
+    border-radius: 3vh;
+    border: 1px solid $dark;
+    text-align: center;
+    background-color: $sand;
+  }
+  &__subtitle {
+    @include font(1.5em, $dark, 700, 1);
+  }
+  &__text {
+    @include font(1.1em, $dark, 500, 1);
+    & span {
+      @include font(1.25em, $dark, 700, 1);
+    }
   }
 }
 </style>

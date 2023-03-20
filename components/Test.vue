@@ -43,7 +43,7 @@ export default {
     action(answer, idx) {
       this.activeItem = idx;
       if (this.activeItem === idx) answer.isChecked = true;
-
+      this.$emit("count");
       // this.$emit("action", answer, idx);
       // console.log(answer);
     },

@@ -8,11 +8,13 @@
     >
       <div
         class="test__answer"
+        ref="answer"
         :class="{
           active: idx === activeItem,
         }"
         @click="action(answer, idx)"
       >
+        <span class="test__check"></span>
         {{ answer.answer }}
       </div>
     </div>
@@ -29,14 +31,21 @@ export default {
       activeItem: null,
     };
   },
+  watch: {
+    activeItem(newVal, oldVal) {
+      this.test.answers.forEach((answer, idx) => {
+        if (idx !== newVal) answer.isChecked = false;
+      });
+    },
+  },
+  mounted() {},
   methods: {
     action(answer, idx) {
       this.activeItem = idx;
       if (this.activeItem === idx) answer.isChecked = true;
-      else answer.isChecked = false;
 
-      if (!answer.isChecked) this.activeItem = null;
       // this.$emit("action", answer, idx);
+      // console.log(answer);
     },
   },
 };

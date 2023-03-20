@@ -58,7 +58,6 @@
     }
   }
 }
-
 //hero
 .hero {
   height: 90vh;
@@ -418,33 +417,63 @@
   &-list {
     display: flex;
     flex-direction: column;
-    gap: 2vh;
-    align-items: center;
+    gap: 0;
     width: 75%;
-    margin: 0 auto;
+    margin: 0 auto 2vh;
+    padding: 1vh;
+    background-color: $sand;
+    border-radius: 2vh;
+    border: 1px solid $dark;
+    box-shadow: 0px 4px 0px rgba($dark, 0.2);
   }
   &__title {
     margin-bottom: 1vh;
     padding: 1vh;
-    border: 1px solid $dark;
-    border-radius: 1vh;
+    @include font(0.9em, $dark, 700, 1);
   }
   &__answers {
-    margin-bottom: 2vh;
+    padding: 0.5vh;
   }
   &__answer {
+    display: flex;
+    align-items: center;
+    gap: 1.5vh;
+    @include font(0.8em, $dark, 400, 1);
+
     cursor: pointer;
-    border-bottom: 1px solid transparent;
     transition: 0.3s ease-in-out;
 
     &.active {
-      color: #06650f;
-      border-color: 1px solid $dark;
+      color: $green;
+
+      & > .test__check {
+        border-color: $green;
+        background: rgba($green, 0.8);
+        outline: $sand solid 2px;
+        outline-offset: -4px;
+
+        @include large {
+          outline: $sand solid 5px;
+          outline-offset: -10px;
+        }
+      }
     }
 
     &:hover,
     &:active {
       border-color: $dark;
+    }
+  }
+
+  &__check {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid rgba($dark, 0.5);
+
+    @include large {
+      width: 1.1vw;
+      height: 1.1vw;
     }
   }
 }

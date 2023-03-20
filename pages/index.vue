@@ -74,6 +74,7 @@
             </p>
             <div class="hero__buttons">
               <a href="#" class="hero__btn">записатись на курс</a>
+              <div class="btn" @click="openModal()">пройти тест</div>
               <!-- <a href="#" class="btn transparent">тест на визначення рівня</a> -->
             </div>
           </div>
@@ -131,7 +132,7 @@
 
     <section class="section">
       <div class="container">
-        <div class="banner"></div>
+        <div id="about" class="banner"></div>
         <div class="text-wrap">
           <h2 class="title">просто вчимо тебе говорити</h2>
           <p class="text">
@@ -340,31 +341,33 @@
         </div>
       </div>
     </footer>
-    <section class="section">
+    <!-- <section class="section">
       <div class="container">
         <div class="center"><h2 class="title">test</h2></div>
 
         <Test v-for="test in tests" :key="test.id" :test="test" />
-        <!--           @action="choose"
- -->
+      
         <div class="center">
-          <div class="btn" @click="getResult()">Перевірити</div>
+          <div class="btn" @click="getResult()">Перевірити nt</div>
         </div>
       </div>
-    </section>
+    </section> -->
+    <Modal v-if="modalVisible" @close="close()" />
   </div>
 </template>
 
 <script>
 import Test from "../components/Test.vue";
 import Course from "../components/CourseCard.vue";
+import Modal from "../components/Modal.vue";
 import courses from "@/store/courses.js";
+
 export default {
   name: "Home",
-  components: { Test, Course },
+  components: { Test, Course, Modal },
   data() {
     return {
-      // coursesLocal: courses[0],
+      modalVisible: false,
       tests: [
         {
           id: "01",
@@ -710,6 +713,13 @@ export default {
         });
       });
       this.results = [];
+    },
+    openModal() {
+      this.modalVisible = true;
+      // console.log("openModal");
+    },
+    close() {
+      this.modalVisible = false;
     },
   },
 };

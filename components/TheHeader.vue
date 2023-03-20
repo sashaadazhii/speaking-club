@@ -16,14 +16,16 @@
         <div class="menu-wrapper" ref="modal">
           <div class="close" @click="closeModal"></div>
           <div class="menu">
-            <a href="#" class="menu__link" @click="closeModal">про школу</a>
-            <a href="#" class="menu__link" @click="closeModal"
+            <a href="#about" class="menu__link" @click="closeModal()"
+              >про школу</a
+            >
+            <a href="#" class="menu__link" @click="closeModal()"
               >поїздка у лондон</a
             >
             <a href="#courses" class="menu__link" @click="closeModal()"
               >актуальні курси</a
             >
-            <a href="#" class="menu__link" @click="closeModal">пройти тест</a>
+            <a href="" class="menu__link" @click="closeModal()">пройти тест</a>
           </div>
           <div class="menu__title">записатись</div>
           <div class="menu__socials socials">

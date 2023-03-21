@@ -30,7 +30,10 @@ export default {
   buildModules: [],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [],
+  modules: ["@nuxtjs/axios", "nuxt-seo"],
+  seo: {
+    // Module Options
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

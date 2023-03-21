@@ -14,18 +14,18 @@
         </div>
 
         <div class="menu-wrapper" ref="modal">
-          <div class="close" @click="closeModal"></div>
+          <div class="close" @click="closeMenu()"></div>
           <div class="menu">
-            <a href="#about" class="menu__link" @click="closeModal()"
+            <a href="#about" class="menu__link" @click="closeMenu()"
               >про школу</a
             >
-            <a href="#" class="menu__link" @click="closeModal()"
+            <a href="#" class="menu__link" @click="closeMenu()"
               >поїздка у лондон</a
             >
-            <a href="#courses" class="menu__link" @click="closeModal()"
+            <a href="#courses" class="menu__link" @click="closeMenu()"
               >актуальні курси</a
             >
-            <a href="" class="menu__link" @click="closeModal()">пройти тест</a>
+            <div class="menu__link" @click="openTest()">пройти тест</div>
           </div>
           <div class="menu__title">записатись</div>
           <div class="menu__socials socials">
@@ -47,23 +47,29 @@
   </header>
 </template>
 <script>
+import { mapState, mapMutations } from "vuex";
 export default {
   name: "TheHeader",
+  computed: {
+    ...mapState({
+      isOpen: (s) => s.modal.isOpen,
+    }),
+  },
   methods: {
+    ...mapMutations({
+      toggle: "modal/toggleModal",
+    }),
     openMenu() {
       this.$refs.modal.classList.add("open");
       document.body.style.overflowY = "hidden";
     },
-    closeModal() {
+    closeMenu() {
       this.$refs.modal.classList.remove("open");
       document.body.style.overflowY = "auto";
-
-      // if (refName) {
-      //   let element = this.$refs[refName];
-      //   let top = element.offsetTop;
-
-      //   window.scrollTo(300, top);
-      // }
+    },
+    openTest() {
+      this.closeMenu();
+      this.toggle(true);
     },
   },
 };

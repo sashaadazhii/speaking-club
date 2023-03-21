@@ -362,7 +362,6 @@ export default {
     await this.fetchCourses();
   },
   mounted() {
-    console.log(this.isOpen);
     // let video1 = this.$refs.video1;
     // video1.play();
   },

@@ -74,7 +74,7 @@ export default {
       results: [],
       currentSlide: 1,
       isResult: false,
-      userAnswers: [],
+      // userAnswers: [],
     };
   },
   async created() {
@@ -118,7 +118,7 @@ export default {
       //calculate total result
       this.total = this.results.filter((r) => r.correct_answer).length;
       this.isResult = true;
-      this.userAnswers = this.tests;
+      // this.userAnswers = this.tests;
     },
     async getUser() {
       const user = { ...this.localUser, tests: this.tests, total: this.total };
@@ -140,8 +140,8 @@ export default {
       });
     });
 
-    this.setUser({});
-    this.setTests([]);
+    // this.setUser({});
+    // this.setTests([]);
   },
 };
 </script>

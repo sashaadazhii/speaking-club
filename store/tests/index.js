@@ -5,7 +5,7 @@ export const namespaced = true;
 
 export const state = {
   tests: testsList,
-  total: 0,
+  // tests: [],
 };
 
 export const mutations = {
@@ -15,7 +15,7 @@ export const mutations = {
   addChecked(state, tests) {
     if (state.tests && state.tests.length) {
       tests = state.tests.forEach((test) => {
-        test.answers.forEach((answer) => (answer.isChecked = false));
+        test.answer_list.forEach((answer) => (answer.isChecked = false));
       });
     }
   },
@@ -29,7 +29,6 @@ export const actions = {
     try {
       const tests = state.tests;
       commit("set", tests);
-      commit("addChecked", tests);
     } catch (err) {
       commit("setError", err, { root: true });
       throw err;
@@ -38,7 +37,9 @@ export const actions = {
 };
 // export const actions = {
 //   async fetch({ commit }) {
-//     const courses = await this.$axios.$get("http://");
-//     commit("set", courses);
+//     const tests = await this.$axios.$get(
+//       "http://192.168.88.21:8000/api/question/questions"
+//     );
+//     commit("set", tests);
 //   },
 // };

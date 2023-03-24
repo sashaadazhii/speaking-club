@@ -25,7 +25,6 @@
             <a href="#courses" class="menu__link" @click="closeMenu()"
               >актуальні курси</a
             >
-            <div class="menu__link" @click="openTest()">пройти тест</div>
           </div>
           <div class="menu__title">записатись</div>
           <div class="menu__socials socials">
@@ -67,10 +66,10 @@ export default {
       this.$refs.modal.classList.remove("open");
       document.body.style.overflowY = "auto";
     },
-    openTest() {
-      this.closeMenu();
-      this.toggle(true);
-    },
+    // openTest() {
+    //   this.closeMenu();
+    //   this.toggle(true);
+    // },
   },
 };
 </script>

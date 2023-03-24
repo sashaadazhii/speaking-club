@@ -5,7 +5,11 @@
         <div class="center">
           <div class="modal__title title small">тест</div>
         </div>
-        <div class="modal__close" @click="$emit('closeModal')"></div>
+        <div
+          v-if="!isResult"
+          class="modal__close"
+          @click="$emit('closeModal')"
+        ></div>
       </div>
       <ModalCard
         v-if="currentSlide === 1 && !isResult"
@@ -45,6 +49,10 @@
             >/25
           </div>
         </div>
+        <div class="modal__payment">
+          <div class="btn" @click="getUser()">Дякую, я приєнаюсь пізніше</div>
+          <div class="btn">Оплатити курс</div>
+        </div>
       </div>
     </div>
   </div>
@@ -57,6 +65,7 @@ import ModalCard from "../components/ModalCard.vue";
 
 export default {
   name: "Modal",
+  props: { localUser: { type: Object } },
 
   components: { Test, Progress, ModalCard },
   data() {
@@ -70,26 +79,35 @@ export default {
   },
   async created() {
     await this.fetchTests();
+    this.addChecked();
   },
   computed: {
     ...mapState({
       tests: (s) => s.tests.tests,
+      user: (s) => s.user.user,
     }),
   },
   methods: {
     ...mapActions({
       fetchTests: "tests/fetch",
+      createUser: "user/create",
+    }),
+    ...mapMutations({
+      addChecked: "tests/addChecked",
+      setUser: "user/set",
+      setTests: "tests/set",
     }),
     next(currentSlide) {
       this.currentSlide = currentSlide;
     },
     updateSlide() {
-      this.currentSlide = this.currentSlide = +1;
+      this.currentSlide++;
     },
-    getResult() {
+
+    async getResult() {
       //create array of answers
       this.tests.forEach((test) => {
-        test.answers.filter((answer) => {
+        test.answer_list.filter((answer) => {
           if (answer.isChecked) {
             this.results.push(answer);
           }
@@ -98,11 +116,14 @@ export default {
       });
 
       //calculate total result
-      this.total = this.results.filter((r) => r.correct).length;
+      this.total = this.results.filter((r) => r.correct_answer).length;
       this.isResult = true;
       this.userAnswers = this.tests;
-      console.log(this.userAnswers);
-      //get users tests
+    },
+    async getUser() {
+      const user = { ...this.localUser, tests: this.tests, total: this.total };
+      await this.createUser({ user });
+      this.$emit("closeModal");
     },
   },
   beforeDestroy() {
@@ -112,12 +133,15 @@ export default {
     this.currentSlide = 1;
 
     this.tests.forEach((test) => {
-      test.answers.filter((answer) => {
+      test.answer_list.filter((answer) => {
         if (answer.isChecked) {
           answer.isChecked = false;
         }
       });
     });
+
+    this.setUser({});
+    this.setTests([]);
   },
 };
 </script>
@@ -214,6 +238,13 @@ export default {
     & span {
       @include font(1.25em, $dark, 700, 1);
     }
+  }
+  &__payment {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5vh;
+    margin: 3vh 0;
   }
 }
 </style>

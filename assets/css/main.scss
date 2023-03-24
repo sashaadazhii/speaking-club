@@ -557,12 +557,18 @@
 
   &__input {
     height: 80px;
+    width: 100%;
     padding: 10px 40px;
     border: 1px solid rgba(255, 240, 212, 0.3);
     border-radius: 2vh;
     background: transparent;
     @include font(1.5em, $ivory, 600, 1);
     transition: 0.3s ease-in-out;
+
+    &--select {
+      appearance: none;
+    }
+
     @include mobile {
       height: 44px;
       padding: 8px 16px;
@@ -571,7 +577,7 @@
     @include large {
       height: 2.5vw;
       padding: 1vh 2vw;
-      font-size: 1.2em;
+      font-size: 1em;
     }
 
     &::placeholder {
@@ -597,7 +603,30 @@
     }
   }
 }
+.select {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    width: 14px;
+    height: 14px;
+    background: url(../images/arrow.svg) no-repeat;
+    background-position: 100% 0%;
+    background-size: contain;
+    transform: translateY(-50%);
 
+    @include large {
+      right: 1.5vw;
+      width: 1vw;
+      height: 1vw;
+    }
+  }
+}
+.error {
+  @include font(0.75em, #e49274, 400, 1.2);
+}
 .contacts {
   display: flex;
   flex-direction: column;

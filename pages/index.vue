@@ -73,8 +73,10 @@
               the physical world, the inner light, that of Reason, illuminates
             </p>
             <div class="hero__buttons">
-              <a href="#" class="hero__btn">записатись на курс</a>
-              <div class="btn" @click="openModal()">пройти тест</div>
+              <a class="hero__btn" @click="scrollToBottom()"
+                >записатись на курс</a
+              >
+              <!-- <div class="btn" @click="openModal()">пройти тест</div> -->
               <!-- <a href="#" class="btn transparent">тест на визначення рівня</a> -->
             </div>
           </div>
@@ -255,7 +257,7 @@
     </section>
     <section class="section">
       <div class="container">
-        <div class="form-wrapper">
+        <div ref="course" class="form-wrapper">
           <div class="center">
             <div class="title orange">let’s почнемо навчання</div>
             <div class="text light">
@@ -263,36 +265,63 @@
               the physical world, the inner light, that of Reason
             </div>
           </div>
-          <form id="form" action="" class="form">
+          <form id="form" action="" class="form" @submit.prevent="checkForm()">
             <input
+              v-model.trim="$v.name.$model"
               type="text"
               class="form__input"
               placeholder="повне ім’я"
               name="Name"
-              min="3"
-              required
             />
+            <!-- <div class="error" v-if="!$v.name.required && $v.name.$dirty">
+              Ім’я обов'язкове
+            </div> -->
+            <div class="error" v-if="!$v.name.minLength">
+              Ім’я повинно містити мінімум 3 літери.
+            </div>
             <input
+              v-model.trim="$v.phone.$model"
               type="tel"
               class="form__input"
               placeholder="номер тел"
               name="Phone"
-              required
             />
+            <div class="error" v-if="!$v.phone.required && $v.phone.$dirty">
+              Телефон обов'язковий
+            </div>
+            <div class="error" v-if="!$v.phone.minLength || !$v.phone.numeric">
+              Телефон повинен містити мінімум 10 цифр
+            </div>
             <input
+              v-model.trim="$v.email.$model"
               type="email"
               class="form__input"
               placeholder="електронна пошта"
               name="Email"
-              required
             />
-            <select name="cars" class="form__input" required>
-              <option value="">обери курс</option>
-              <option value="zno:English">зно:англійська</option>
-              <option value="level-up">level-up</option>
-              <option value="summer intensive">summer intensive</option>
-              <option value="individual">individual</option>
-            </select>
+            <div class="error" v-if="!$v.email.required && $v.email.$dirty">
+              Email обов'язковий
+            </div>
+            <div class="error" v-if="!$v.email.email">
+              Email має невірний формат
+            </div>
+            <div class="select">
+              <select
+                v-model="$v.course.$model"
+                name="cars"
+                class="form__input form__input--select"
+              >
+                <option value="" disabled>обери курс</option>
+                <option value="zno:English">зно:англійська</option>
+                <option value="level-up">level-up</option>
+                <option value="summer intensive">summer intensive</option>
+                <option value="individual">individual</option>
+              </select>
+            </div>
+
+            <div class="error" v-if="!$v.course.required && $v.course.$dirty">
+              Обери курс
+            </div>
             <div class="form__info">
               <img
                 src="@/assets/images/info.svg"
@@ -309,6 +338,13 @@
               type="submit"
               value="записатись на курс"
               class="btn orange"
+              :class="{
+                disabled:
+                  !$v.name.$model ||
+                  !$v.email.$model ||
+                  !$v.phone.$model ||
+                  !$v.course.$model,
+              }"
             />
           </form>
         </div>
@@ -337,7 +373,8 @@
         </div>
       </div>
     </footer>
-    <Modal v-if="isOpen" @closeModal="closeModal()" />
+    <Modal v-if="isOpen" :localUser="localUser" @closeModal="closeModal()" />
+    <!--   @createUser="addUser()" -->
   </div>
 </template>
 
@@ -347,15 +384,29 @@ import { mapState, mapMutations, mapActions } from "vuex";
 import Test from "../components/Test.vue";
 import Course from "../components/CourseCard.vue";
 import Modal from "../components/Modal.vue";
+import { email, required, minLength, numeric } from "vuelidate/lib/validators";
 
 export default {
   name: "Home",
   components: { Test, Course, Modal },
+  data() {
+    return {
+      // name: "test",
+      // email: "eeee@dd.fd",
+      // phone: "1234567890",
+      name: null,
+      email: null,
+      phone: null,
+      course: "",
+      localUser: {},
+    };
+  },
 
   computed: {
     ...mapState({
       isOpen: (s) => s.modal.isOpen,
       courses: (s) => s.courses.courses,
+      user: (s) => s.user.user,
     }),
   },
   async created() {
@@ -371,13 +422,43 @@ export default {
     }),
     ...mapActions({
       fetchCourses: "courses/fetch",
+      createUser: "user/create",
     }),
     openModal() {
       this.toggle(true);
     },
+
     closeModal() {
       this.toggle(false);
     },
+    checkForm() {
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        console.log("err");
+      } else {
+        this.localUser = {
+          name: this.name,
+          email: this.email,
+          phone: this.phone,
+          course: this.course,
+        };
+        this.openModal();
+        //clear
+        this.name = this.email = this.phone = null;
+        this.course = "";
+        this.$v.$reset();
+      }
+    },
+
+    scrollToBottom() {
+      this.$refs["course"].scrollIntoView({ behavior: "smooth" });
+    },
+  },
+  validations: {
+    email: { email, required },
+    name: { required, minLength: minLength(3) },
+    phone: { required, minLength: minLength(10), numeric },
+    course: { required },
   },
 };
 </script>

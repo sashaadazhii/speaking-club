@@ -21,6 +21,7 @@
     "vue-loader": "^15.10.0",
     "vue-server-renderer": "^2.7.10",
     "vue-template-compiler": "^2.7.10",
-    "vue-video-section": "^1.0.2"
+    "vue-video-section": "^1.0.2",
+    "vuelidate": "^0.7.7"
   }
 }

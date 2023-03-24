@@ -4,6 +4,7 @@ import Vuex from "vuex";
 import * as modal from "./modal/index";
 import * as courses from "./courses/index";
 import * as tests from "./tests/index";
+import * as user from "./user/index";
 
 Vue.use(Vuex);
 
@@ -13,5 +14,6 @@ export default () =>
       modal,
       courses,
       tests,
+      user,
     },
   });

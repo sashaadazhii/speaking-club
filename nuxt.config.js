@@ -15,13 +15,14 @@ export default {
       { name: "format-detection", content: "telephone=no" },
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+    script: [],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: ["~/assets/css/style"],
 
-  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  // plugins: [{ src: "~/plugins/fondy.js", mode: "client" }],
+  plugins: [{ src: "~/plugins/vuelidate.js" }],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -29,8 +30,16 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [],
 
-  // Modules: https://go.nuxtjs.dev/config-modules
   modules: ["@nuxtjs/axios", "nuxt-seo"],
+  axios: {
+    proxy: true,
+  },
+  proxy: {
+    "/api/": {
+      target: "http://192.168.88.21:8000/",
+      // pathRewrite: { "^/api/": "" },
+    },
+  },
   seo: {
     // Module Options
   },

@@ -1,8 +1,8 @@
 <template>
   <div class="test-list">
-    <div class="test__title">{{ test.question }}</div>
+    <div class="test__title">{{ test.title }}</div>
     <div
-      v-for="(answer, idx) in test.answers"
+      v-for="(answer, idx) in test.answer_list"
       :key="answer.id"
       class="test__answers"
     >
@@ -15,7 +15,7 @@
         @click="action(answer, idx)"
       >
         <span class="test__check"></span>
-        {{ answer.answer }}
+        {{ answer.title }}
       </div>
     </div>
   </div>
@@ -33,7 +33,7 @@ export default {
   },
   watch: {
     activeItem(newVal, oldVal) {
-      this.test.answers.forEach((answer, idx) => {
+      this.test.answer_list.forEach((answer, idx) => {
         if (idx !== newVal) answer.isChecked = false;
       });
     },

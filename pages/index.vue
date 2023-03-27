@@ -65,7 +65,7 @@
             <div class="hero__accent">
               Офіційний партнер Burlington School у Лондоні
             </div>
-            <h1 class="hero__title">
+            <h1 ref="title" class="hero__title">
               школа англійської, що не sucks but helps you to <span>speak</span>
             </h1>
             <p class="hero__text">
@@ -73,12 +73,13 @@
               the physical world, the inner light, that of Reason, illuminates
             </p>
             <div class="hero__buttons">
-              <a class="hero__btn" @click="scrollToBottom()"
+              <a ref="heroBtn" class="hero__btn" @click="scrollToBottom()"
                 >записатись на курс</a
               >
-              <!-- <div class="btn" @click="openModal()">пройти тест</div> -->
-              <!-- <a href="#" class="btn transparent">тест на визначення рівня</a> -->
             </div>
+            <!-- <div class="btn" @click="openModal()">пройти тест</div> -->
+            <!-- <a href="#" class="btn transparent">тест на визначення рівня</a> -->
+            <!-- </div> -->
           </div>
           <div class=""></div>
           <!-- <div class="hero__right">
@@ -132,7 +133,7 @@
       </div>
     </section>
 
-    <section class="section">
+    <section id="about-section" class="section">
       <div class="container">
         <div id="about" class="banner"></div>
         <div class="text-wrap">
@@ -385,6 +386,8 @@ import Test from "../components/Test.vue";
 import Course from "../components/CourseCard.vue";
 import Modal from "../components/Modal.vue";
 import { email, required, minLength, numeric } from "vuelidate/lib/validators";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export default {
   name: "Home",
@@ -413,6 +416,28 @@ export default {
     await this.fetchCourses();
   },
   mounted() {
+    const TL = gsap.timeline();
+
+    TL.from(this.$refs.title, { y: -50, autoAlpha: 0 })
+      .from(".hero__text", { y: -50, autoAlpha: 0 }, "-=0.2")
+      .from(".hero__accent", { y: -50, autoAlpha: 0 }, "-=0.2")
+      .from(".hero__buttons", { y: -50, autoAlpha: 0 }, "-=0.1");
+
+    gsap.to(".banner", {
+      y: 0,
+      duration: 1,
+      scrollTrigger: {
+        trigger: "#about-section",
+        // markers: true,
+        start: "top 70%",
+      },
+    });
+    //.home-content .middle-line {   height: 0px;}
+    // .from(logo, { y: -50, autoAlpha: 0 }, "-=0.2")
+    // .from(btn, { y: -50, autoAlpha: 0 }, "-=0.2")
+    // .from(links, { y: -50, autoAlpha: 0, stagger: 0.1 }, "-=0.2")
+    // .from(imgs, { y: -50, autoAlpha: 0 }, "-=0.2")
+
     // let video1 = this.$refs.video1;
     // video1.play();
   },

@@ -110,6 +110,8 @@
     gap: 2vh;
     width: 100%;
     padding: 0 5vh;
+    visibility: hidden;
+    // opacity: 0;
   }
   &__btn {
     display: flex;
@@ -147,6 +149,7 @@
     @include font(4.2vw, $dark, 700, 1);
     letter-spacing: -0.02em;
     text-align: center;
+    visibility: hidden;
     & span {
       color: $orange;
     }
@@ -163,6 +166,7 @@
   }
   &__text {
     @include font(1.3em, $dark, 500, 1.64);
+    visibility: hidden;
   }
   &__accent {
     display: inline-flex;
@@ -172,6 +176,7 @@
     @include font(1.25em, $dark, 500, 1.1);
     text-transform: lowercase;
     letter-spacing: 0.02em;
+    visibility: hidden;
 
     @include mini {
       width: 90%;
@@ -264,6 +269,8 @@
   background-size: cover;
   width: 96%;
   margin: 0 auto 8vh;
+  //gsap
+  transform: translateY(50%);
   @include tablet {
     height: 50vh;
   }

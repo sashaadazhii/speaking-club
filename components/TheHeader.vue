@@ -1,5 +1,6 @@
 <template>
   <header class="section header">
+    <div class="header__line"></div>
     <div class="container">
       <div class="header__inner">
         <div class="header__logo-wrap">
@@ -47,12 +48,23 @@
 </template>
 <script>
 import { mapState, mapMutations } from "vuex";
+import { gsap } from "gsap";
+
 export default {
   name: "TheHeader",
   computed: {
     ...mapState({
       isOpen: (s) => s.modal.isOpen,
     }),
+  },
+  mounted() {
+    const TL = gsap.timeline();
+
+    TL.from(".header__line", {
+      scaleX: 0,
+      transformOrigin: "left center",
+      duration: 2,
+    });
   },
   methods: {
     ...mapMutations({
@@ -80,8 +92,7 @@ export default {
   height: 10vh;
   padding: 2vh 0;
 
-  &::before {
-    content: "";
+  &__line {
     position: absolute;
     top: 0;
     left: 0;

@@ -11,6 +11,7 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.13.6",
     "core-js": "^3.25.3",
+    "gsap": "^3.11.5",
     "nuxt": "^2.15.8",
     "nuxt-seo": "^1.6.1",
     "nuxt-video-player": "^1.0.17",

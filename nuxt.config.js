@@ -22,7 +22,10 @@ export default {
   css: ["~/assets/css/style"],
 
   // plugins: [{ src: "~/plugins/fondy.js", mode: "client" }],
-  plugins: [{ src: "~/plugins/vuelidate.js" }],
+  plugins: [
+    { src: "~/plugins/vuelidate.js" },
+    { src: "~/plugins/gsap", ssr: false },
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -52,5 +55,6 @@ export default {
         source: "src",
       },
     },
+    transpile: ["gsap"],
   },
 };

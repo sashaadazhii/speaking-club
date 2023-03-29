@@ -151,7 +151,7 @@
     @include font(4.2vw, $dark, 700, 1);
     letter-spacing: -0.02em;
     text-align: center;
-    visibility: hidden;
+    // visibility: hidden;
     & span {
       color: $orange;
     }

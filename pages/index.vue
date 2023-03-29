@@ -65,7 +65,7 @@
             <div class="hero__accent">
               Офіційний партнер Burlington School у Лондоні
             </div>
-            <h1 ref="title" class="hero__title">
+            <h1 id="title" ref="title" class="hero__title">
               школа англійської, що не sucks but helps you to <span>speak</span>
             </h1>
             <p class="hero__text">
@@ -388,20 +388,21 @@ import Modal from "../components/Modal.vue";
 import { email, required, minLength, numeric } from "vuelidate/lib/validators";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from "gsap/SplitText";
 
 export default {
   name: "Home",
   components: { Test, Course, Modal },
   data() {
     return {
-      name: "test",
-      email: "eeee@dd.fd",
-      phone: "1234567890",
-      course: "level-up",
-      // name: null,
-      // email: null,
-      // phone: null,
-      // course: "",
+      // name: "test",
+      // email: "eeee@dd.fd",
+      // phone: "1234567890",
+      // course: "level-up",
+      name: null,
+      email: null,
+      phone: null,
+      course: "",
       localUser: {},
     };
   },
@@ -417,12 +418,26 @@ export default {
     await this.fetchCourses();
   },
   mounted() {
+    const mySplitText = new SplitText("#title", {
+        type: "lines, words",
+        linesClass: "line",
+      }),
+      words = mySplitText.words; //an array of all the divs that wrap each character
+
     const TL = gsap.timeline();
 
-    TL.from(this.$refs.title, { y: -50, autoAlpha: 0 })
-      .from(".hero__text", { y: -50, autoAlpha: 0 }, "-=0.2")
-      .from(".hero__accent", { y: -50, autoAlpha: 0 }, "-=0.2")
-      .from(".hero__buttons", { y: -50, autoAlpha: 0 }, "-=0.1");
+    TL
+      // .from(this.$refs.title, { y: -50, autoAlpha: 0 })
+      .from(words, {
+        duration: 0.8,
+        opacity: 0,
+        yPercent: 150,
+        ease: "power",
+        stagger: 0.02,
+      })
+      .from(".hero__text", { y: 50, autoAlpha: 0 }, "-=0.2")
+      .from(".hero__accent", { y: 50, autoAlpha: 0 }, "-=0.2")
+      .from(".hero__buttons", { y: 50, autoAlpha: 0 }, "-=0.1");
 
     gsap.to(".banner", {
       y: 0,

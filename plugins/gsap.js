@@ -1,13 +1,16 @@
 import Vue from "vue";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from "gsap/SplitText";
 
 gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(SplitText);
 
 const GSAP = {
   install(Vue, options) {
     Vue.prototype.$gsap = gsap;
     Vue.prototype.$ScrollTrigger = ScrollTrigger;
+    Vue.prototype.$SplitText = SplitText;
   },
 };
 

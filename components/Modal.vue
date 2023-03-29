@@ -14,10 +14,16 @@
       <ModalCard
         v-if="currentSlide === 1 && !isResult"
         :tests="tests.slice(0, 5)"
+        :length="5"
+        @getTotal="getResult()"
+      />
+      <!-- <ModalCard
+        v-if="currentSlide === 1 && !isResult"
+        :tests="tests.slice(0, 5)"
         :length="1"
         @next="next(2)"
-      />
-      <ModalCard
+      /> -->
+      <!-- <ModalCard
         v-if="currentSlide === 2 && !isResult"
         :tests="tests.slice(5, 10)"
         :length="2"
@@ -40,7 +46,7 @@
         :tests="tests.slice(20, 25)"
         :length="5"
         @getTotal="getResult()"
-      />
+      /> -->
       <div v-if="isResult" class="modal__body">
         <div class="modal__result">
           <div class="modal__subtitle">Ваш результат:</div>
@@ -51,7 +57,7 @@
         </div>
         <div class="modal__payment">
           <div class="btn" @click="getUser()">Дякую, я приєнаюсь пізніше</div>
-          <div class="btn">Оплатити курс</div>
+          <div class="btn" @click="pay()">Оплатити курс</div>
         </div>
       </div>
     </div>
@@ -74,6 +80,8 @@ export default {
       results: [],
       currentSlide: 1,
       isResult: false,
+      invoiceId: "",
+      payment: null,
       // userAnswers: [],
     };
   },
@@ -81,6 +89,7 @@ export default {
     await this.fetchTests();
     this.addChecked();
   },
+
   computed: {
     ...mapState({
       tests: (s) => s.tests.tests,
@@ -103,7 +112,6 @@ export default {
     updateSlide() {
       this.currentSlide++;
     },
-
     async getResult() {
       //create array of answers
       this.tests.forEach((test) => {
@@ -120,10 +128,58 @@ export default {
       this.isResult = true;
       // this.userAnswers = this.tests;
     },
-    async getUser() {
-      const user = { ...this.localUser, tests: this.tests, total: this.total };
-      await this.createUser({ user });
+    async getUser(invoiceId) {
+      const user = {
+        ...this.localUser,
+        tests: this.tests,
+        userPoints: this.total,
+        invoiceId: invoiceId ? invoiceId : "",
+      };
+      await this.createUser(user);
       this.$emit("closeModal");
+    },
+
+    async pay() {
+      this.$axios.setHeader(
+        "X-Token",
+        "u8542TTTty3NerPE7lT4qCSmXpnZHQ0TvQCeMMi-4pTs"
+      );
+
+      this.$axios.setToken(
+        "u8542TTTty3NerPE7lT4qCSmXpnZHQ0TvQCeMMi-4pTs",
+        "X-Token"
+      );
+      this.$axios.setHeader(
+        "Authorization",
+        "X-Token u8542TTTty3NerPE7lT4qCSmXpnZHQ0TvQCeMMi-4pTs"
+      );
+      const payment = await this.$axios.$post("create", {
+        amount: 100,
+        redirectUrl: "http://localhost:3000/",
+        webHookUrl: "https://13f5-31-128-76-137.eu.ngrok.io/webhook",
+        merchantPaymInfo: {
+          reference: "84d0070ee4e44667b31371d8f8813947",
+          destination: "Квиток у англомовне майбутнє",
+          basketOrder: [
+            {
+              name: "ЗНО - Англійська",
+              qty: 1,
+              sum: 100,
+              icon: "string",
+              // unit: "шт.",
+              code: "d21da1c47f3c45fca10a10c32518bdeb",
+              barcode: "3b2a558cc6e44e218cdce301d80a1779",
+              header: "1111",
+              footer: "2222",
+              tax: [],
+              uktzed: "uktzedcode",
+            },
+          ],
+        },
+      });
+
+      await this.getUser(payment.invoiceId);
+      window.location.href = payment.pageUrl;
     },
   },
   beforeDestroy() {
@@ -159,6 +215,10 @@ export default {
   height: 100%;
   display: grid;
   grid-template-rows: auto 1fr;
+
+  @include tablet {
+    padding: 2vh;
+  }
 
   &-wrapper {
     position: fixed;
@@ -231,6 +291,7 @@ export default {
     background-color: $sand;
   }
   &__subtitle {
+    font-family: "Unbounded", cursive;
     @include font(1.5em, $dark, 700, 1);
   }
   &__text {

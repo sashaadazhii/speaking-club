@@ -190,6 +190,7 @@ export default {
     object-fit: contain;
   }
   &__subtitle {
+    font-family: "Unbounded", cursive;
     padding-bottom: 2.1vh;
     @include font(1.5em, #7bb2d9, 600, 1.5);
   }

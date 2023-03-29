@@ -76,6 +76,7 @@
               <a ref="heroBtn" class="hero__btn" @click="scrollToBottom()"
                 >записатись на курс</a
               >
+              <div class="btn" @click="pay()">Оплатити курс</div>
             </div>
             <!-- <div class="btn" @click="openModal()">пройти тест</div> -->
             <!-- <a href="#" class="btn transparent">тест на визначення рівня</a> -->
@@ -375,7 +376,6 @@
       </div>
     </footer>
     <Modal v-if="isOpen" :localUser="localUser" @closeModal="closeModal()" />
-    <!--   @createUser="addUser()" -->
   </div>
 </template>
 
@@ -394,13 +394,14 @@ export default {
   components: { Test, Course, Modal },
   data() {
     return {
-      // name: "test",
-      // email: "eeee@dd.fd",
-      // phone: "1234567890",
-      name: null,
-      email: null,
-      phone: null,
-      course: "",
+      name: "test",
+      email: "eeee@dd.fd",
+      phone: "1234567890",
+      course: "level-up",
+      // name: null,
+      // email: null,
+      // phone: null,
+      // course: "",
       localUser: {},
     };
   },
@@ -477,6 +478,44 @@ export default {
 
     scrollToBottom() {
       this.$refs["course"].scrollIntoView({ behavior: "smooth" });
+    },
+    async pay() {
+      const amount = 200;
+      this.$axios.setHeader(
+        "X-Token",
+        "u8542TTTty3NerPE7lT4qCSmXpnZHQ0TvQCeMMi-4pTs",
+        ["post"]
+      );
+
+      const payment = await this.$axios.$post(
+        "https://api.monobank.ua/api/merchant/invoice/create",
+        {
+          amount: amount,
+          redirectUrl: "http://localhost:3000/",
+          webHookUrl: "https://13f5-31-128-76-137.eu.ngrok.io/webhook",
+          merchantPaymInfo: {
+            reference: "84d0070ee4e44667b31371d8f8813947",
+            destination: "Квиток у англомовне майбутнє",
+            basketOrder: [
+              {
+                name: "ЗНО - Англійська",
+                qty: 1,
+                sum: 100,
+                icon: "string",
+                // unit: "шт.",
+                code: "d21da1c47f3c45fca10a10c32518bdeb",
+                barcode: "3b2a558cc6e44e218cdce301d80a1779",
+                header: "1111",
+                footer: "2222",
+                tax: [],
+                uktzed: "uktzedcode",
+              },
+            ],
+          },
+        }
+      );
+      // window.location.href = payment.pageUrl;
+      console.log(payment.pageUrl);
     },
   },
   validations: {

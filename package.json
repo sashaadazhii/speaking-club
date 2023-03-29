@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.13.6",
+    "@nuxtjs/proxy": "^2.1.0",
     "core-js": "^3.25.3",
     "gsap": "^3.11.5",
     "nuxt": "^2.15.8",
@@ -24,5 +25,8 @@
     "vue-template-compiler": "^2.7.10",
     "vue-video-section": "^1.0.2",
     "vuelidate": "^0.7.7"
+  },
+  "devDependencies": {
+    "@nuxtjs/router": "^1.7.0"
   }
 }

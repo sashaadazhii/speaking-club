@@ -1,7 +1,7 @@
 <template>
   <header class="section header">
     <div class="header__line"></div>
-    <div class="container">
+    <div class="header__container">
       <div class="header__inner">
         <div class="header__logo-wrap">
           <img
@@ -92,6 +92,11 @@ export default {
   height: 10vh;
   padding: 2vh 0;
 
+  &__container {
+    width: 100%;
+    padding: 0 1vw;
+  }
+
   &__line {
     position: absolute;
     top: 0;
@@ -143,6 +148,7 @@ export default {
     padding-top: 12vh;
     background: url("../assets/images/menu-bg.svg") 0 0 no-repeat, $orange;
     background-size: 30%;
+    z-index: 10;
 
     //animation
     transform: translate(100%, -100%) scale(0.7) rotateZ(8deg);
@@ -191,6 +197,7 @@ export default {
     align-items: center;
     gap: 2vh;
     padding: 2vh;
+    font-family: "Unbounded", cursive;
     @include font(1.25em, $dark, 700, 1);
     background: $orange;
     border: 1px solid $dark;
@@ -232,9 +239,13 @@ export default {
 
   &__title {
     margin: 5vh 0 4vh;
+    font-family: "Unbounded", cursive;
     @include font(4em, $dark, 800, 1);
     @include phablet {
       font-size: 3em;
+    }
+    @include mini {
+      font-size: 2.5em;
     }
   }
 }

@@ -1,6 +1,5 @@
 @import "variables.scss";
-@import url("https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@400;500;600;700&family=Unbounded:wght@400;500;600;700&display=swap");
 .section {
   padding: 6vh 0;
   width: 100%;
@@ -25,6 +24,7 @@
   background: $orange;
 
   border-radius: 10vh;
+  font-family: "Unbounded", cursive;
   @include font(1.25em, $dark, 700, 1);
   text-align: center;
   box-shadow: 0px 9px 0px #996e1b;
@@ -121,6 +121,7 @@
     background: $dark;
     border: 5px solid $orange;
     border-radius: 10vh;
+    font-family: "Unbounded", cursive;
     @include font(1.25em, $light, 700, 1);
     text-align: center;
     box-shadow: 0px 9px 0px $dark-orange;
@@ -146,6 +147,7 @@
   }
   &__title {
     padding: 0 2vh;
+    font-family: "Unbounded", cursive;
     @include font(4.2vw, $dark, 700, 1);
     letter-spacing: -0.02em;
     text-align: center;
@@ -292,6 +294,7 @@
   }
 }
 .title {
+  font-family: "Unbounded", cursive;
   @include font(2.2em, $dark, 700, 0.94);
   text-transform: lowercase;
   letter-spacing: -0.02em;
@@ -310,7 +313,11 @@
   &.light {
     color: $ivory;
   }
+  @include tablet {
+    font-size: 1.1em;
+  }
   @include mobile {
+    font-size: 1em;
     line-height: 1.4;
   }
   @include large {
@@ -416,6 +423,10 @@
       gap: 3vh;
       width: 75%;
     }
+    @include mobile {
+      gap: 3vh;
+      width: 100%;
+    }
   }
 }
 .cards {
@@ -436,8 +447,13 @@
     border-radius: 2vh;
     border: 1px solid $dark;
     box-shadow: 0px 4px 0px rgba($dark, 0.2);
+
+    @include tablet {
+      width: 96%;
+    }
   }
   &__title {
+    font-family: "Unbounded", cursive;
     margin-bottom: 1vh;
     padding: 1vh;
     @include font(0.9em, $dark, 700, 1);
@@ -448,18 +464,22 @@
   &__answer {
     display: flex;
     align-items: center;
+    padding: 1vh;
     gap: 1.5vh;
     @include font(0.8em, $dark, 400, 1);
-
+    border-radius: 1vh;
+    border: 1px solid rgba($dark, 0.2);
     cursor: pointer;
     transition: 0.3s ease-in-out;
+    opacity: 0.7;
 
     &.active {
-      color: $green;
+      border-color: rgba($dark, 0.5);
+      opacity: 1;
 
       & > .test__check {
-        border-color: $green;
-        background: rgba($green, 0.8);
+        border-color: rgba($dark, 0.8);
+        background: rgba($dark, 0.8);
         outline: $sand solid 2px;
         outline-offset: -4px;
 
@@ -524,6 +544,7 @@
     }
   }
   &__title {
+    font-family: "Unbounded", cursive;
     @include font(1.15em, $dark, 700, 1);
   }
   &__text {
@@ -599,6 +620,12 @@
     display: flex;
     align-items: center;
     gap: 3vh;
+
+    @include mobile {
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+    }
   }
   &__icon {
     width: 30px;

@@ -62,8 +62,10 @@ select {
   }
 }
 * {
-  font-family: "Unbounded", cursive;
+  font-family: "Noto Sans Mono", monospace;
 }
+// font-family: 'Noto Sans Mono', monospace;
+// font-family: 'Unbounded', cursive;
 body {
   background-color: $ivory;
   font-size: 1.15vw;

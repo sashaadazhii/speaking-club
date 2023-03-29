@@ -24,6 +24,16 @@ export default {
   justify-content: center;
   gap: 1vh;
   padding: 2vh;
+
+  @include phablet {
+    grid-template-columns: repeat(5, 70px);
+  }
+  @include mobile {
+    grid-template-columns: repeat(5, 50px);
+  }
+  @include large {
+    grid-template-columns: repeat(5, 5vw);
+  }
 }
 .step {
   width: 100%;
@@ -31,6 +41,10 @@ export default {
   background-color: rgba(#c7d4cb, 0.6);
   border-radius: 0.5vh;
   transition: 0.4s;
+
+  @include large {
+    height: 1vw;
+  }
 
   &.active {
     background-color: rgba($green, 0.6);

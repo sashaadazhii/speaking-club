@@ -32,25 +32,13 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: ["@nuxtjs/router"],
-
   modules: ["@nuxtjs/axios", "nuxt-seo", "@nuxtjs/proxy"],
   axios: {
     proxy: true,
-    // credentials: true,
-    // baseUrl: "http://localhost:3000",
-    // common: {
-    //   Accept: "application/json, text/plain, */*",
-    //   "Access-Control-Allow-Origin": "*",
-    //   "Access-Control-Allow-Methods": "DELETE, POST, GET, OPTIONS",
-    //   // "Access-Control-Allow-Credentials": "true",
-    //   "Access-Control-Allow-Headers":
-    //     "Authorization, Origin, X-Requested-With, Content-Type, Accept",
-    //   Authorization: "X-Token u8542TTTty3NerPE7lT4qCSmXpnZHQ0TvQCeMMi-4pTs",
-    //   "X-Token": 'u8542TTTty3NerPE7lT4qCSmXpnZHQ0TvQCeMMi-4pTs"',
-    // },
   },
   proxy: {
-    "/webhook": "https://13f5-31-128-76-137.eu.ngrok.io",
+    "/api": "https://13f5-31-128-76-137.eu.ngrok.io",
+    // "/api": "https://ec2-100-26-100-255.compute-1.amazonaws.com",
     "/create": "https://api.monobank.ua/api/merchant/invoice",
   },
 

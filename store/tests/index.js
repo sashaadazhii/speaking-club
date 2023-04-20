@@ -14,8 +14,8 @@ export const mutations = {
   },
   addChecked(state, tests) {
     if (state.tests && state.tests.length) {
-      tests = state.tests.forEach((test) => {
-        test.answer_list.forEach((answer) => (answer.isChecked = false));
+      state.tests.forEach((test) => {
+        test.answers.forEach((answer) => (answer.isChecked = false));
       });
     }
   },
@@ -24,22 +24,24 @@ export const mutations = {
   },
 };
 
-export const actions = {
-  async fetch({ commit, state }) {
-    try {
-      const tests = state.tests;
-      commit("set", tests);
-    } catch (err) {
-      commit("setError", err, { root: true });
-      throw err;
-    }
-  },
-};
 // export const actions = {
-//   async fetch({ commit }) {
-//     const tests = await this.$axios.$get(
-//       "http://192.168.88.21:8000/api/question/questions"
-//     );
-//     commit("set", tests);
+//   async fetch({ commit, state }) {
+//     try {
+//       const tests = state.tests;
+//       commit("set", tests);
+//     } catch (err) {
+//       commit("setError", err, { root: true });
+//       throw err;
+//     }
 //   },
 // };
+
+export const actions = {
+  async fetch({ commit, state }) {
+    const tests = await this.$axios.$get(
+      "http://ec2-100-26-100-255.compute-1.amazonaws.com/api/english-test/questions/"
+    );
+    commit("set", tests);
+    console.log(state.tests, tests);
+  },
+};

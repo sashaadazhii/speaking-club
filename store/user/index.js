@@ -30,16 +30,9 @@ export const mutations = {
 
 export const actions = {
   async create({ commit }, user) {
-    // const url = process.env.VUE_APP_BACKEND;
-
     try {
-      // console.log(user);
-
-      const us = await this.$axios.post(
-        // `https://13f5-31-128-76-137.eu.ngrok.io/webhook`,
-        `webhook`,
-        user
-      );
+      // const us = await this.$axios.post("api/payment/webhook_front", user);
+      const us = await this.$axios.post("api/payment/webhook_front", user);
       commit("set", us);
       console.log(us);
       return us;

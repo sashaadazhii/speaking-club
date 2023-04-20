@@ -12,7 +12,7 @@
         class="card__date"
         :style="[course.color ? { color: course.color } : { color: '#7BB2D9' }]"
       >
-        {{ course.date }}
+        {{ formattedDateStart }} - {{ formattedDateFinish }}
       </div>
       <div class="card__info">
         <div class="title">{{ course.name }}</div>
@@ -22,7 +22,7 @@
       </div>
       <div class="card__bottom">
         <div class="card__accent">{{ course.duration }}</div>
-        <div class="card__accent">{{ course.price }} грн</div>
+        <div class="card__accent">{{ price }} грн</div>
       </div>
     </div>
     <div class="card__right">
@@ -32,7 +32,7 @@
       >
         особливості курсу:
       </div>
-      <div v-for="item in course.access" :key="item" class="card__row">
+      <div v-for="item in advantages" :key="item" class="card__row">
         <div
           class="card__row-img"
           :style="[
@@ -82,9 +82,60 @@
 </template>
 
 <script>
+import { gsap } from "gsap";
 export default {
   name: "courseCard",
   props: { course: { type: Object, require } },
+  data() {
+    return {
+      months: [
+        "січня",
+        "лютого",
+        "березня",
+        "квітня",
+        "травня",
+        "червня",
+        "липня",
+        "серпня",
+        "вересня",
+        "жовтня",
+        "листопада",
+        "грудня",
+      ],
+      formattedDateStart: null,
+      formattedDateFinish: null,
+    };
+  },
+  mounted() {
+    gsap.to(".card", {
+      duration: 0.8,
+      opacity: 1,
+      y: 0,
+      scrollTrigger: {
+        trigger: ".card",
+        start: "top 70%",
+      },
+    });
+
+    const dateStart = new Date(this.course.dateStart);
+    const dateFinish = new Date(this.course.dateFinish);
+    // console.log(dateStart);
+    // console.log(this.course);
+    this.formattedDateStart =
+      dateStart.getDate() + " " + this.months[dateStart.getMonth()];
+    this.formattedDateFinish =
+      dateFinish.getDate() + " " + this.months[dateFinish.getMonth()];
+  },
+  computed: {
+    advantages() {
+      let advantages = this.course.access.toString().split(";");
+      advantages.forEach((a) => a[0].toUpperCase());
+      return advantages;
+    },
+    price() {
+      return this.course.price.toString().split(".")[0];
+    },
+  },
 };
 </script>
 
@@ -99,6 +150,10 @@ export default {
   box-shadow: 0px 8px 0px #48799c;
   border-radius: 3vh;
   margin: 5vh 0 0;
+
+  //gsap
+  transform: translateY(15%);
+  opacity: 0;
 
   @include tablet {
     padding: 2vh;

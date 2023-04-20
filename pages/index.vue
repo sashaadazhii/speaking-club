@@ -1,6 +1,9 @@
 <template>
   <div class="page">
-    <TheHeader />
+    <!-- <Loading /> -->
+    <!-- <Loading v-if="!finishedLoading" @destroyLoading="destroyLoading" /> -->
+
+    <Header />
     <section class="section hero">
       <div class="container">
         <div class="hero__inner">
@@ -66,7 +69,8 @@
               Офіційний партнер Burlington School у Лондоні
             </div>
             <h1 id="title" ref="title" class="hero__title">
-              школа англійської, що не sucks but helps you to <span>speak</span>
+              школа англійської, що не sucks but helps you to
+              <span>speak</span>
             </h1>
             <p class="hero__text">
               In the same way that the outer light, that of the sun, illuminates
@@ -76,11 +80,7 @@
               <a ref="heroBtn" class="hero__btn" @click="scrollToBottom()"
                 >записатись на курс</a
               >
-              <div class="btn" @click="pay()">Оплатити курс</div>
             </div>
-            <!-- <div class="btn" @click="openModal()">пройти тест</div> -->
-            <!-- <a href="#" class="btn transparent">тест на визначення рівня</a> -->
-            <!-- </div> -->
           </div>
           <div class=""></div>
           <!-- <div class="hero__right">
@@ -310,6 +310,20 @@
             <div class="select">
               <select
                 v-model="$v.course.$model"
+                name="courses"
+                class="form__input form__input--select"
+              >
+                <option value="" disabled>обери курс</option>
+                <option
+                  v-for="course in courses"
+                  :key="course.name"
+                  :value="course.name"
+                >
+                  {{ course.name }}
+                </option>
+              </select>
+              <!-- <select
+                v-model="$v.course.$model"
                 name="cars"
                 class="form__input form__input--select"
               >
@@ -318,7 +332,7 @@
                 <option value="level-up">level-up</option>
                 <option value="summer intensive">summer intensive</option>
                 <option value="individual">individual</option>
-              </select>
+              </select> -->
             </div>
 
             <div class="error" v-if="!$v.course.required && $v.course.$dirty">
@@ -385,6 +399,8 @@ import { mapState, mapMutations, mapActions } from "vuex";
 import Test from "../components/Test.vue";
 import Course from "../components/CourseCard.vue";
 import Modal from "../components/Modal.vue";
+import Loading from "../components/Loading.vue";
+import Header from "../components/TheHeader.vue";
 import { email, required, minLength, numeric } from "vuelidate/lib/validators";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -392,17 +408,25 @@ import { SplitText } from "gsap/SplitText";
 
 export default {
   name: "Home",
-  components: { Test, Course, Modal },
+  components: { Test, Course, Modal, Loading, Header },
   data() {
     return {
-      // name: "test",
-      // email: "eeee@dd.fd",
-      // phone: "1234567890",
-      // course: "level-up",
-      name: null,
-      email: null,
-      phone: null,
-      course: "",
+      name: "test",
+      email: "eeee@dd.fd",
+      phone: "1234567890",
+      course: "Level-UP",
+      // name: null,
+      // email: null,
+      // phone: null,
+      // course: "",
+      // amount: 0,
+      // coursesList: [
+      //   { title: "ЗНО: англійська", price: 2000 },
+      //   { title: "Level-up", price: 3500 },
+      //   { title: "Individual", price: 4000 },
+      //   { title: "Summer intensive", price: 3000 },
+      // ],
+      finishedLoading: false,
       localUser: {},
     };
   },
@@ -426,15 +450,13 @@ export default {
 
     const TL = gsap.timeline();
 
-    TL
-      // .from(this.$refs.title, { y: -50, autoAlpha: 0 })
-      .from(words, {
-        duration: 0.8,
-        opacity: 0,
-        yPercent: 150,
-        ease: "power",
-        stagger: 0.02,
-      })
+    TL.from(words, {
+      duration: 0.8,
+      opacity: 0,
+      yPercent: 150,
+      ease: "power",
+      stagger: 0.02,
+    })
       .from(".hero__text", { y: 50, autoAlpha: 0 }, "-=0.2")
       .from(".hero__accent", { y: 50, autoAlpha: 0 }, "-=0.2")
       .from(".hero__buttons", { y: 50, autoAlpha: 0 }, "-=0.1");
@@ -444,18 +466,21 @@ export default {
       duration: 1,
       scrollTrigger: {
         trigger: "#about-section",
-        // markers: true,
         start: "top 70%",
       },
     });
-    //.home-content .middle-line {   height: 0px;}
-    // .from(logo, { y: -50, autoAlpha: 0 }, "-=0.2")
-    // .from(btn, { y: -50, autoAlpha: 0 }, "-=0.2")
-    // .from(links, { y: -50, autoAlpha: 0, stagger: 0.1 }, "-=0.2")
-    // .from(imgs, { y: -50, autoAlpha: 0 }, "-=0.2")
 
+    ScrollTrigger.batch(".advantages__item", {
+      batchMax: 5,
+      trigger: ".advantages",
+      start: "top 85%",
+
+      onEnter: (batch) => {
+        gsap.to(batch, { autoAlpha: 1, stagger: 0.15, y: 0, overwrite: true });
+      },
+    });
     // let video1 = this.$refs.video1;
-    // video1.play();
+    // video1.play();}
   },
   methods: {
     ...mapMutations({
@@ -468,7 +493,6 @@ export default {
     openModal() {
       this.toggle(true);
     },
-
     closeModal() {
       this.toggle(false);
     },
@@ -477,12 +501,16 @@ export default {
       if (this.$v.$invalid) {
         console.log("err");
       } else {
+        const amount = this.courses.find((c) => c.name === this.course).price;
+        const courseID = this.courses.find((c) => c.name === this.course).id;
         this.localUser = {
           name: this.name,
           email: this.email,
           phone: this.phone,
-          course: this.course,
+          course: courseID,
+          amount: amount || 0,
         };
+        // console.log(this.localUser);
         this.openModal();
         //clear
         this.name = this.email = this.phone = null;
@@ -530,7 +558,11 @@ export default {
         }
       );
       // window.location.href = payment.pageUrl;
-      console.log(payment.pageUrl);
+      // console.log(payment.pageUrl);
+    },
+    destroyLoading(finishedLoading) {
+      // gsap.to(window, { scrollTo: 0 });
+      this.finishedLoading = finishedLoading;
     },
   },
   validations: {

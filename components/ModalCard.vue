@@ -49,7 +49,7 @@ export default {
     next(currentSlide) {
       let counter = 0;
       this.tests.filter((test) => {
-        if (test.answer_list.some((a) => a.isChecked)) {
+        if (test.answers.some((a) => a.isChecked)) {
           counter++;
         }
 

@@ -22,8 +22,8 @@
         :tests="tests.slice(0, 5)"
         :length="1"
         @next="next(2)"
-      /> -->
-      <!-- <ModalCard
+      />
+      <ModalCard
         v-if="currentSlide === 2 && !isResult"
         :tests="tests.slice(5, 10)"
         :length="2"
@@ -56,8 +56,11 @@
           </div>
         </div>
         <div class="modal__payment">
-          <div class="btn" @click="getUser()">Дякую, я приєнаюсь пізніше</div>
-          <div class="btn" @click="pay()">Оплатити курс</div>
+          <div class="btn" @click="getUser(false)">
+            Дякую, я приєнаюсь пізніше
+          </div>
+          <!-- <div class="btn" @click="pay(true)">Оплатити курс</div> -->
+          <div class="btn" @click="getUser(true)">Оплатити курс</div>
         </div>
       </div>
     </div>
@@ -82,10 +85,11 @@ export default {
       isResult: false,
       invoiceId: "",
       payment: null,
+      amount: 0,
       // userAnswers: [],
     };
   },
-  async created() {
+  async mounted() {
     await this.fetchTests();
     this.addChecked();
   },
@@ -115,7 +119,7 @@ export default {
     async getResult() {
       //create array of answers
       this.tests.forEach((test) => {
-        test.answer_list.filter((answer) => {
+        test.answers.filter((answer) => {
           if (answer.isChecked) {
             this.results.push(answer);
           }
@@ -128,35 +132,31 @@ export default {
       this.isResult = true;
       // this.userAnswers = this.tests;
     },
-    async getUser(invoiceId) {
+    async getUser(isInvoice) {
       const user = {
         ...this.localUser,
         tests: this.tests,
         userPoints: this.total,
-        invoiceId: invoiceId ? invoiceId : "",
+        isInvoice: isInvoice,
       };
-      await this.createUser(user);
-      this.$emit("closeModal");
+      const payload = await this.createUser(user);
+      // console.log(payload.data.pageUrl);
+      // this.$emit("closeModal");
+      window.location.href = payload.data.pageUrl;
     },
 
     async pay() {
-      this.$axios.setHeader(
-        "X-Token",
-        "u8542TTTty3NerPE7lT4qCSmXpnZHQ0TvQCeMMi-4pTs"
-      );
-
-      this.$axios.setToken(
-        "u8542TTTty3NerPE7lT4qCSmXpnZHQ0TvQCeMMi-4pTs",
-        "X-Token"
-      );
+      this.$axios.setHeader("X-Token", this.$config.mono_token);
       this.$axios.setHeader(
         "Authorization",
-        "X-Token u8542TTTty3NerPE7lT4qCSmXpnZHQ0TvQCeMMi-4pTs"
+        `X-Token ${this.$config.mono_token}`
       );
+      this.$axios.setToken(this.$config.mono_token, "X-Token");
+
       const payment = await this.$axios.$post("create", {
         amount: 100,
         redirectUrl: "http://localhost:3000/",
-        webHookUrl: "https://13f5-31-128-76-137.eu.ngrok.io/webhook",
+        webHookUrl: "https://13f5-31-128-76-137.eu.ngrok.io/webhook_front",
         merchantPaymInfo: {
           reference: "84d0070ee4e44667b31371d8f8813947",
           destination: "Квиток у англомовне майбутнє",
@@ -179,7 +179,7 @@ export default {
       });
 
       await this.getUser(payment.invoiceId);
-      window.location.href = payment.pageUrl;
+      // window.location.href = payment.pageUrl;
     },
   },
   beforeDestroy() {
@@ -189,7 +189,7 @@ export default {
     this.currentSlide = 1;
 
     this.tests.forEach((test) => {
-      test.answer_list.filter((answer) => {
+      test.answers.filter((answer) => {
         if (answer.isChecked) {
           answer.isChecked = false;
         }

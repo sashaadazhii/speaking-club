@@ -1,10 +1,11 @@
-import { courses as coursesList } from "../data/courses.js"; //temp
+// import { courses as coursesList } from "../data/courses.js"; //temp
 import axios from "axios";
 
 export const namespaced = true;
 
 export const state = {
-  courses: coursesList,
+  // courses: coursesList,
+  courses: [],
 };
 
 export const mutations = {

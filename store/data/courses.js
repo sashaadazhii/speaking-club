@@ -1,7 +1,7 @@
 // export default {
 const courses = [
   {
-    id: "c01",
+    id: 1,
     name: "зно: англійська",
     date: "1 червня — 30 серпня",
     shortPreview:
@@ -22,7 +22,7 @@ const courses = [
       "групові заняття; персональний тічер-ментор; безкоштовний доступ до Netflix; додаткові групові вебінари",
   },
   {
-    id: "c02",
+    id: 2,
     name: "Level-UP",
     date: "1 червня — 30 серпня",
     shortPreview:

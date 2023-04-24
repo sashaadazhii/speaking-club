@@ -32,9 +32,13 @@ export const actions = {
   async create({ commit }, user) {
     try {
       // const us = await this.$axios.post("api/payment/webhook_front", user);
-      const us = await this.$axios.post("api/payment/webhook_front", user);
+      // const us = await this.$axios.post("api/payment/webhook_front", user);
+      const us = await this.$axios.post(
+        "http://ec2-100-26-100-255.compute-1.amazonaws.com/api/payment/webhook_front/",
+        user
+      );
       commit("set", us);
-      console.log(us);
+      // console.log(us);
       return us;
     } catch (err) {
       commit("setError", err, { root: true });

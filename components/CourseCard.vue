@@ -119,8 +119,7 @@ export default {
 
     const dateStart = new Date(this.course.dateStart);
     const dateFinish = new Date(this.course.dateFinish);
-    // console.log(dateStart);
-    // console.log(this.course);
+
     this.formattedDateStart =
       dateStart.getDate() + " " + this.months[dateStart.getMonth()];
     this.formattedDateFinish =

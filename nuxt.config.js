@@ -37,9 +37,9 @@ export default {
     proxy: true,
   },
   proxy: {
-    "/api": "https://13f5-31-128-76-137.eu.ngrok.io",
+    // "/api": "https://13f5-31-128-76-137.eu.ngrok.io",
     // "/api": "https://ec2-100-26-100-255.compute-1.amazonaws.com",
-    "/create": "https://api.monobank.ua/api/merchant/invoice",
+    // "/create": "https://api.monobank.ua/api/merchant/invoice",
   },
 
   seo: {

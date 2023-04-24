@@ -140,9 +140,10 @@ export default {
         isInvoice: isInvoice,
       };
       const payload = await this.createUser(user);
-      // console.log(payload.data.pageUrl);
+      console.log(payload);
       // this.$emit("closeModal");
       window.location.href = payload.data.pageUrl;
+      // window.location.href = payload.pageUrl;
     },
 
     async pay() {

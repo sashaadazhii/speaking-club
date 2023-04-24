@@ -4,8 +4,8 @@ import axios from "axios";
 export const namespaced = true;
 
 export const state = {
-  courses: coursesList,
-  // courses: [],
+  // courses: coursesList,
+  courses: [],
 };
 
 export const mutations = {
